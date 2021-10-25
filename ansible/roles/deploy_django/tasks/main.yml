@@ -46,11 +46,6 @@
     - deploy_app
     - clone
 
-- name: Nginx Setup Steps
-  include: nginx_setup.yml
-  tags:
-    - nginx_setup
-
 - name: database setup
   include: db_setup.yml
   tags:
@@ -60,3 +55,8 @@
   include: app_setup.yml
   tags:
     - app_setup
+
+- name: Nginx Setup Steps
+  include: nginx_setup.yml
+  tags:
+    - nginx_setup

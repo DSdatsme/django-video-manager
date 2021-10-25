@@ -1,5 +1,22 @@
 
 
+- name: install modules in a virtualenv
+  pip:
+    requirements: /home/{{ ansible_ssh_user }}/video_app/video_manager/requirements.txt
+    virtualenv: /home/{{ ansible_ssh_user }}/video_app/env
+    virtualenv_python: python3
+  notify:
+    - restart video_app
+  tags:
+    - deploy_app
+
+- name: copy dataabase secrets
+  copy:
+    src: db_secrets.ini
+    dest: video_app/video_manager/.db.ini
+  tags:
+    - secrets
+
 - name: migrate DB
   shell: "../env/bin/python manage.py migrate"
   args:
@@ -10,15 +27,6 @@
     - db_migrate
     - deploy_app
 
-- name: install modules in a virtualenv
-  pip:
-    requirements: /home/{{ ansible_ssh_user }}/video_app/video_manager/requirements.txt
-    virtualenv: /home/{{ ansible_ssh_user }}/video_app/env
-    virtualenv_python: python3
-  notify:
-    - restart video_app
-  tags:
-    - deploy_app
 
 - name: template systemd service config
   template:

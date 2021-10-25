@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 import os
+import configparser
 
 from .constants import DEFAULT_VIDEO_FOLDER, VIDEO_SERVING_ENDPOINT
 
@@ -26,9 +27,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-cvf8893jazz4gs&$7#%+43-2i_zc%bh#ff^h2+*((x&ck^t+&z'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
 
 
 # Application definition
@@ -74,17 +75,37 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'video_manager.wsgi.application'
 
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': True,
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': '/tmp/video_app.log',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    },
+}
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
+config = configparser.ConfigParser()
+config.read('.db.ini')
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'video_storage',
-        'USER': 'user',
-        'PASSWORD': 'password',
-        'HOST': '127.0.0.1',
+        'NAME': config['DJANGO']['DATABASE_NAME'],
+        'USER': config['DJANGO']['DATABASE_USER'],
+        'PASSWORD': config['DJANGO']['DATABASE_PASSWORD'],
+        'HOST': config['DJANGO']['DATABASE_ENDPOINT'],
         'PORT': '3306',
     }
 }
