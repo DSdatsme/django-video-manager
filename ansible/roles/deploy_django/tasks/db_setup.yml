@@ -53,9 +53,8 @@
     - docker_setup
 
 - name: starting database container
-  docker_compose:
-      project_src: files/
-      files:
-        - docker-compose.yml
+  shell: docker-compose up -d
+  args:
+    chdir: video_app/video_manager
   tags:
     - start_db

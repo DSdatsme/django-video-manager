@@ -19,6 +19,10 @@
     - python3-dev
     - nginx
     - virtualenv
+    - build-essential
+    - libssl-dev
+    - libmysqlclient-dev
+    - ffmpeg
   tags:
     - server_setup
     - apt
@@ -36,6 +40,8 @@
     repo: 'https://github.com/DSdatsme/django-video-manager'
     dest: /home/{{ ansible_ssh_user }}/video_app
     update: yes
+  notify:
+    - restart video_app
   tags:
     - deploy_app
     - clone
@@ -49,3 +55,8 @@
   include: db_setup.yml
   tags:
     - db_setup
+
+- name: app_setup setup
+  include: app_setup.yml
+  tags:
+    - app_setup

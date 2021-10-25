@@ -14,22 +14,14 @@
 - name: template nginx config
   template:
     src: nginx_config.cfg.j2
-    dest: /etc/nginx/sites-available/video_app
+    dest: /etc/nginx/conf.d/video_app.conf
   notify:
     - reload nginx
   tags:
     - nginx_deploy
-
-- name: enable nginx
-  file:
-    src: /etc/nginx/sites-available/video_app
-    dest: /etc/nginx/sites-enabled/default
-    state: link
-    force: yes
 
 - name: restart nginx
   systemd:
     name: nginx
     state: restarted
     enabled: yes
-

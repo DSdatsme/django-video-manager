@@ -1,11 +1,22 @@
 
 
+- name: migrate DB
+  shell: "../env/bin/python manage.py migrate"
+  args:
+    chdir: video_app/video_manager
+  notify:
+    - restart video_app
+  tags:
+    - db_migrate
+    - deploy_app
 
 - name: install modules in a virtualenv
   pip:
-    requirements: /home/{{ ansible_ssh_user }}/video_app/requirements.txt
+    requirements: /home/{{ ansible_ssh_user }}/video_app/video_manager/requirements.txt
     virtualenv: /home/{{ ansible_ssh_user }}/video_app/env
     virtualenv_python: python3
+  notify:
+    - restart video_app
   tags:
     - deploy_app
 
