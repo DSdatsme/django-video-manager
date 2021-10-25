@@ -1,0 +1,35 @@
+- name: Install nginx
+  apt:
+    name: nginx
+    state: latest
+  tags:
+    - nginx_install
+    - apt
+
+- name: remove default nginx site config
+  file: 
+    path: /etc/nginx/sites-enabled/default 
+    state: absent
+
+- name: template nginx config
+  template:
+    src: nginx_config.cfg.j2
+    dest: /etc/nginx/sites-available/video_app
+  notify:
+    - reload nginx
+  tags:
+    - nginx_deploy
+
+- name: enable nginx
+  file:
+    src: /etc/nginx/sites-available/video_app
+    dest: /etc/nginx/sites-enabled/default
+    state: link
+    force: yes
+
+- name: restart nginx
+  systemd:
+    name: nginx
+    state: restarted
+    enabled: yes
+

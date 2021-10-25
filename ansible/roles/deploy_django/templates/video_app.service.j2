@@ -1,0 +1,14 @@
+e
+[Unit]
+Description=Wsgi instance to serve webapp
+After=network.target
+
+[Service]
+User={{ ansible_ssh_user }}
+Group=www-data
+WorkingDirectory=/home/{{ ansible_ssh_user }}/video_app/video_manager
+Environment="PATH=/home/{{ ansible_ssh_user }}/video_app/env/bin"
+ExecStart=/home/{{ ansible_ssh_user }}/video_app/env/bin/python manage.py runserver
+
+[Install]
+WantedBy=multi-user.target

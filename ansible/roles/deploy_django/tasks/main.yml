@@ -1,0 +1,50 @@
+---
+
+- name: Check the linux destro
+  fail:
+    msg: To deplopy the app you require Ubuntu
+  when: ansible_distribution != 'Ubuntu'
+  tags:
+    - always
+
+- name: install required packages
+  apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes 
+  become: true
+  with_items:
+    - software-properties-common
+    - python3-pip
+    - python3-dev
+    - nginx
+    - virtualenv
+  tags:
+    - server_setup
+    - apt
+
+# - name: clone Private repo
+#   git:
+#     repo: 'https://{{ github_user | urlencode }}:{{ github_token | urlencode }}@github.com/DSdatsme/django-video-manager'
+#     dest: /home/{{ ansible_ssh_user }}/video_app
+#     update: yes
+#   tags:
+#     - deploy_app
+
+- name: clone Public repo
+  git:
+    repo: 'https://github.com/DSdatsme/django-video-manager'
+    dest: /home/{{ ansible_ssh_user }}/video_app
+    update: yes
+  tags:
+    - deploy_app
+
+- name: Nginx Setup Steps
+  include: nginx_setup.yml
+  tags:
+    - nginx_setup
+
+- name: database setup
+  include: db_setup.yml
+  tags:
+    - db_setup

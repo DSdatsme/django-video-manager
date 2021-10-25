@@ -1,0 +1,22 @@
+
+
+
+- name: install modules in a virtualenv
+  pip:
+    requirements: /home/{{ ansible_ssh_user }}/video_app/requirements.txt
+    virtualenv: /home/{{ ansible_ssh_user }}/video_app/env
+    virtualenv_python: python3
+  tags:
+    - deploy_app
+
+- name: template systemd service config
+  template:
+    src: video_app.service.j2
+    dest: /etc/systemd/system/video_app.service
+
+- name: start systemd app service
+  systemd: 
+    name: video_app.service 
+    state: restarted
+    enabled: yes 
+    daemon_reload: yes
