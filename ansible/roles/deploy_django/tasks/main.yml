@@ -38,6 +38,7 @@
     update: yes
   tags:
     - deploy_app
+    - clone
 
 - name: Nginx Setup Steps
   include: nginx_setup.yml
