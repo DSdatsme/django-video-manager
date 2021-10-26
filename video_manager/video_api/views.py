@@ -126,7 +126,8 @@ class VideoMetadataApi(APIView):
 
                 helpers.move_file(DEFAULT_VIDEO_FOLDER + current_path,
                                   DEFAULT_VIDEO_FOLDER + required_video.path + required_video.name)
-                logger.info(f"file moved to destination {DEFAULT_VIDEO_FOLDER + required_video.path + required_video.name} for video id {video_id}")
+                logger.info(
+                    f"file moved to destination {DEFAULT_VIDEO_FOLDER + required_video.path + required_video.name} for video id {video_id}")
             required_video.save()       # save entry in db
             response["message"] = helpers.get_video_metadata_response(
                 required_video)
@@ -149,7 +150,7 @@ class VideoMetadataApi(APIView):
 
             file_path = helpers.delete_video_file(
                 required_video.path + required_video.name)  # delete video from filesystem
-            
+
             required_video.delete()
             logger.error(f"Video deleted with ID {video_id}")
         except Exception as err:
