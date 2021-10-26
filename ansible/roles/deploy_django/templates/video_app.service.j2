@@ -1,4 +1,3 @@
-e
 [Unit]
 Description=Wsgi instance to serve webapp
 After=network.target
@@ -7,7 +6,7 @@ After=network.target
 User={{ ansible_ssh_user }}
 Group=www-data
 WorkingDirectory=/home/{{ ansible_ssh_user }}/video_app/video_manager
-Environment="PATH=/home/{{ ansible_ssh_user }}/video_app/env/bin"
+Environment="PATH=/home/{{ ansible_ssh_user }}/video_app/env/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin"
 ExecStart=/home/{{ ansible_ssh_user }}/video_app/env/bin/python manage.py runserver
 
 [Install]

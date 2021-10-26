@@ -5,19 +5,24 @@ import subprocess
 import json
 from pathlib import Path
 import os
+import logging
 
 # django dependencies
 from video_manager.constants import SERVER_DOMAIN
 from django.core.files.storage import default_storage
 
+logger = logging.getLogger('django')
+
 def get_video_data(filename):
     cmnd = " ".join(['ffprobe', '-show_format', '-loglevel',  'quiet','-print_format', 'json', filename])
+    logger.info(cmnd)
     p = subprocess.Popen(cmnd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
     out, err =  p.communicate()
+    video_data = out.decode('utf-8')
+    logger.debug(video_data)
     video_data = json.loads(out.decode('utf-8'))
-    print(filename)
     if err:
-        print(err)
+        logger.error(err)
         raise Exception("Unable to get video metadata")
     return video_data
 

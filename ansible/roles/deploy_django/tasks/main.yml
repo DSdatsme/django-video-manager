@@ -27,24 +27,29 @@
     - server_setup
     - apt
 
-# - name: clone Private repo
-#   git:
-#     repo: 'https://{{ github_user | urlencode }}:{{ github_token | urlencode }}@github.com/DSdatsme/django-video-manager'
-#     dest: /home/{{ ansible_ssh_user }}/video_app
-#     update: yes
-#   tags:
-#     - deploy_app
-
-- name: clone Public repo
+- name: clone Private repo
   git:
-    repo: 'https://github.com/DSdatsme/django-video-manager'
+    repo: 'https://{{ github_user | urlencode }}:{{ github_token | urlencode }}@github.com/DSdatsme/django-video-manager'
     dest: /home/{{ ansible_ssh_user }}/video_app
     update: yes
+  become: false
   notify:
     - restart video_app
   tags:
     - deploy_app
     - clone
+
+
+# - name: clone Public repo
+#   git:
+#     repo: 'https://github.com/DSdatsme/django-video-manager'
+#     dest: /home/{{ ansible_ssh_user }}/video_app
+#     update: yes
+#   notify:
+#     - restart video_app
+#   tags:
+#     - deploy_app
+#     - clone
 
 - name: database setup
   include: db_setup.yml

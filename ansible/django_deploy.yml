@@ -1,6 +1,6 @@
 ---
 
-- hosts: all
+- hosts: django
   become: true
   roles:
    - { role: deploy_django }
