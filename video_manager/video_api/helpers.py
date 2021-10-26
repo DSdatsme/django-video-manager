@@ -12,7 +12,7 @@ from django.core.files.storage import default_storage
 
 def get_video_data(filename):
     cmnd = ['ffprobe', '-show_format', '-loglevel',  'quiet','-print_format', 'json', filename]
-    p = subprocess.Popen(cmnd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    p = subprocess.Popen(cmnd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
     out, err =  p.communicate()
     video_data = json.loads(out.decode('utf-8'))
     print(filename)
