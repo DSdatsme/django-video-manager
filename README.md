@@ -1,6 +1,50 @@
+<!-- no toc -->
 # Video Manager App
 
 This is a basic Django backend app that does CRUD operations on Videos that are stored on disk.
+
+- [Video Manager App](#video-manager-app)
+  - [Deploy the App](#deploy-the-app)
+    - [Manual Stuff](#manual-stuff)
+    - [Setup](#setup)
+    - [Updating the files](#updating-the-files)
+      - [Updating Django Code](#updating-django-code)
+      - [Updating Nginx Configs](#updating-nginx-configs)
+  - [Accessing the APP (APIs)](#accessing-the-app-apis)
+    - [Upload Video](#upload-video)
+      - [Endpoint](#endpoint)
+      - [Parameters](#parameters)
+      - [Request](#request)
+      - [Response](#response)
+    - [Get Video List](#get-video-list)
+      - [Endpoint](#endpoint-1)
+      - [Request](#request-1)
+      - [Response](#response-1)
+    - [Get Video Data](#get-video-data)
+      - [Endpoint](#endpoint-2)
+      - [Parameters](#parameters-1)
+      - [Request](#request-2)
+      - [Response](#response-2)
+    - [Update Video MetaData](#update-video-metadata)
+      - [Endpoint](#endpoint-3)
+      - [Parameters](#parameters-2)
+      - [Request](#request-3)
+      - [Response](#response-3)
+    - [Delete Video](#delete-video)
+      - [Endpoint](#endpoint-4)
+      - [Parameters](#parameters-3)
+      - [Request](#request-4)
+      - [Response](#response-4)
+  - [OPS](#ops)
+    - [Restarting APP](#restarting-app)
+    - [Check app logs](#check-app-logs)
+    - [Check Database](#check-database)
+    - [Check Nginx](#check-nginx)
+  - [Current Limitations and Future Scope](#current-limitations-and-future-scope)
+    - [App](#app)
+    - [Containerize](#containerize)
+    - [Nginx and SSL](#nginx-and-ssl)
+    - [CI/CD](#cicd)
 
 ## Deploy the App
 
@@ -45,9 +89,12 @@ For Nginx conf update run the tag `nginx_deploy`.
 
 ## Accessing the APP (APIs)
 
+
 ### Upload Video
 
-Make a POST request with the local video file path to upload.
+<details>
+
+<summary>Make a POST request with the local video file path to upload.</summary>
 
 #### Endpoint
 
@@ -98,10 +145,12 @@ where,
 `size` is size of video in bytes.
 `duration` is video duration in seconds.
 `playback_url` is URL what you can use to play the video.
+</details>
 
 ### Get Video List
 
-Make a GET request to list down all the videos in DB.
+<details>
+<summary>Make a GET request to list down all the videos in DB.</summary>
 
 #### Endpoint
 
@@ -150,10 +199,12 @@ Response to this GET request is list of videos with all metadata.
     ]
 }
 ```
+</details>
 
 ### Get Video Data
 
-Make a GET request with video ID to get it's data.
+<details>
+<summary>Make a GET request with video ID to get it's data.</summary>
 
 #### Endpoint
 
@@ -192,9 +243,12 @@ Response will have all video metadata.
 }
 ```
 
+</details>
+
 ### Update Video MetaData
 
-Make a PUT request with following options to update video metadata.
+<details>
+<summary>Make a PUT request with following options to update video metadata.</summary>
 
 > **NOTE**: currently only `path` and `name` updates are supported.
 
@@ -241,11 +295,14 @@ curl --location --request PUT '35.154.174.194/videos/3' \
 }
 ```
 
-the response will have new metadata values along with updated URL.
+The response will have new metadata values along with updated URL.
+
+</details>
 
 ### Delete Video
 
-Delete a particular video from server.
+<details>
+<summary>Delete a particular video from server.</summary>
 
 #### Endpoint
 
@@ -283,6 +340,8 @@ Response will have all video metadata of the deleted video.
     "playback_url": "https://35.154.174.194/videos/play/ds/videos/github.mp4"
 }
 ```
+
+</details>
 
 ## OPS
 
