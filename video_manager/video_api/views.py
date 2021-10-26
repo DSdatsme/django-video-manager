@@ -11,7 +11,7 @@ from .models import Video, get_video_by_id
 
 from video_manager.constants import DEFAULT_VIDEO_FOLDER
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('django')
 
 
 class VideoAlreadyExistsException(Exception):

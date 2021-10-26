@@ -77,7 +77,7 @@ WSGI_APPLICATION = 'video_manager.wsgi.application'
 
 LOGGING = {
     'version': 1,
-    'disable_existing_loggers': True,
+    'disable_existing_loggers': False,
     'handlers': {
         'file': {
             'level': 'DEBUG',

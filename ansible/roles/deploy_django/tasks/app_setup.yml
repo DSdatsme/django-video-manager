@@ -10,12 +10,25 @@
   tags:
     - deploy_app
 
-- name: copy dataabase secrets
+- name: copy database secrets
   copy:
     src: db_secrets.ini
     dest: video_app/video_manager/.db.ini
   tags:
     - secrets
+    - deploy_app
+
+- name: allow access to tmp dir
+  file:
+    path: /tmp
+    state: directory
+    mode: '0777'
+
+- name: touch log file
+  file:
+    path: /tmp/video_app.log
+    state: touch
+    mode: 0777
 
 - name: migrate DB
   shell: "../env/bin/python manage.py migrate"
